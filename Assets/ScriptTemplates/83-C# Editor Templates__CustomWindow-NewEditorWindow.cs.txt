@@ -1,0 +1,32 @@
+#if UNITY_EDITOR
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+
+public class #SCRIPTNAME# : EditorWindow
+{
+
+	#region WINDOW 
+	
+	public static #SCRIPTNAME# Window;
+
+	public static void OpenWindow()
+	{
+		Window = GetWindow<#SCRIPTNAME#>("");
+		Window.Show();
+	}
+
+	#endregion
+
+	#region VARIABLES
+    #endregion
+
+	#region UNITY METHODS
+	#endregion
+
+    #region METHODS
+    #endregion
+}
+#endif

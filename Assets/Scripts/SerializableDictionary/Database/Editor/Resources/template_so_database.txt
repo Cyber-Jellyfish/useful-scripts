@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Database
+{
+    [CreateAssetMenu(fileName = "%NAME", menuName = "Databases/%NAME")]
+    public class %NAME : SODatabase<%KEY, %VALUE>
+    {
+
+        #region VARIABLES
+
+        [Header("Database")]
+        public %S_DICTIONARY Database = new %S_DICTIONARY();
+
+        #endregion
+        
+        #region METHODS
+
+        public override void Add(%KEY key, %VALUE value)
+        {
+            Database.Add(key, value);
+        }
+
+        public override %VALUE Get(%KEY key)
+        {
+            return Database[key];
+        }
+
+        public override void UpdateValue(%KEY key, %VALUE value)
+        {
+            Database[key] = value;
+        }
+
+        public override bool Remove(%KEY key)
+        {
+            return Database.Remove(key);
+        }
+
+        public override void Clear()
+        {
+            Database.Clear();
+        }
+
+        public override bool ContainsKey(%KEY key)
+        {
+            return Database.ContainsKey(key);
+        }
+
+        #endregion
+    }
+    
+    [Serializable]
+    public class %S_DICTIONARY : SDictionary<%KEY, %VALUE>
+    {
+    }
+}

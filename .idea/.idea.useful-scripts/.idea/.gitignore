@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/contentModel.xml
+/.idea.useful-scripts.iml
+# Datasource local storage ignored files
+/../../../../../../../../../../../:\Users\mruee\Documents\Projects\VersionControl\Unity\useful-scripts\.idea\.idea.useful-scripts\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

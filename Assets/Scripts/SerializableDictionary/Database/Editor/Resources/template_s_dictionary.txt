@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Database
+{
+    [Serializable]
+    public class %S_DICTIONARY : SDictionary<%KEY, %VALUE>
+    {
+    }
+}
