@@ -1,13 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public enum GridMovementType
-{
-    BySpeed,
-    ByTime,
-}
-
-public class MovementBehaviour : MonoBehaviour
+public class GridMovement2D : MonoBehaviour
 {
     #region VARIABLES
 
@@ -19,8 +13,7 @@ public class MovementBehaviour : MonoBehaviour
 
     [Header("Movement")]
     public float MoveSpeed = 5f;
-    public float RotationSpeed = 5f;
-    public float TimeToMove    = 0.2f;
+    public float TimeToMove = 0.2f;
 
     [Header("Contact Mask")]
     public LayerMask ContactMask;
@@ -32,10 +25,9 @@ public class MovementBehaviour : MonoBehaviour
     [Tooltip("Offset the Target Position by this Offset Value.")]
     public float Offset = 1f;
 
-    private Camera  _camera;
-    private Vector3 _originPosition;
-    private Vector3 _targetPosition;
-    private float   _targetAngle;
+    private Camera _camera;
+    private Vector2 _originPosition;
+    private Vector2 _targetPosition;
 
     #endregion
 
@@ -66,23 +58,21 @@ public class MovementBehaviour : MonoBehaviour
 
     private void GridMovementByTime(Vector2 inputAxis)
     {
-        RotatePlayer(inputAxis);
-
         if (IsMoving) return;
 
-        LerpTowardsTarget(inputAxis, Vector2.left, Vector3.left);
-        LerpTowardsTarget(inputAxis, Vector2.right, Vector3.right);
-        LerpTowardsTarget(inputAxis, Vector2.up, Vector3.forward);
-        LerpTowardsTarget(inputAxis, Vector2.down, Vector3.back);
+        LerpTowardsTarget(inputAxis, Vector2.left);
+        LerpTowardsTarget(inputAxis, Vector2.right);
+        LerpTowardsTarget(inputAxis, Vector2.up);
+        LerpTowardsTarget(inputAxis, Vector2.down);
     }
 
-    private void LerpTowardsTarget(Vector2 inputAxis, Vector2 inputDirection, Vector3 movementDirection)
+    private void LerpTowardsTarget(Vector2 inputAxis, Vector2 inputDirection)
     {
         if (inputAxis != inputDirection) return;
-        StartCoroutine(LerpMovementRoutine(movementDirection * Offset));
+        StartCoroutine(LerpMovementRoutine(inputDirection * Offset));
     }
 
-    private IEnumerator LerpMovementRoutine(Vector3 direction)
+    private IEnumerator LerpMovementRoutine(Vector2 direction)
     {
         IsMoving = true;
 
@@ -116,8 +106,6 @@ public class MovementBehaviour : MonoBehaviour
 
     private void GridMovementBySpeed(Vector2 inputAxis)
     {
-        RotatePlayer(inputAxis);
-
         // Replace Vectors with Vector3
         if (IsMoving)
         {
@@ -129,30 +117,21 @@ public class MovementBehaviour : MonoBehaviour
 
         transform.position = _targetPosition;
         IsMoving = false;
-        UpdateTargetPosition(inputAxis, Vector2.left, Vector3.left);
-        UpdateTargetPosition(inputAxis, Vector2.right, Vector3.right);
-        UpdateTargetPosition(inputAxis, Vector2.up, Vector3.forward);
-        UpdateTargetPosition(inputAxis, Vector2.down, Vector3.back);
+        UpdateTargetPosition(inputAxis, Vector2.left);
+        UpdateTargetPosition(inputAxis, Vector2.right);
+        UpdateTargetPosition(inputAxis, Vector2.up);
+        UpdateTargetPosition(inputAxis, Vector2.down);
     }
 
-    private void UpdateTargetPosition(Vector2 inputAxis, Vector2 inputDirection, Vector3 movementDirection)
+    private void UpdateTargetPosition(Vector2 inputAxis, Vector2 inputDirection)
     {
         if (inputAxis != inputDirection) return;
-        if (!Physics.Raycast(transform.position, movementDirection * Offset, 2f, ContactMask))
+        if (!Physics.Raycast(transform.position, inputDirection * Offset, 2f, ContactMask))
         {
-            _targetPosition += movementDirection * Offset;
+            _targetPosition += inputDirection * Offset;
         }
 
         IsMoving = true;
-    }
-
-    private void RotatePlayer(Vector2 inputAxis)
-    {
-        if (inputAxis == Vector2.zero) return;
-        _targetAngle = Mathf.Atan2(inputAxis.x, inputAxis.y) * Mathf.Rad2Deg + _camera.transform.eulerAngles.y;
-        transform.rotation = Quaternion.Lerp(transform.rotation,
-                                             Quaternion.Euler(0f, _targetAngle, 0f),
-                                             Time.deltaTime * RotationSpeed);
     }
 
     #endregion
@@ -163,10 +142,10 @@ public class MovementBehaviour : MonoBehaviour
     {
         if (!DrawRayLines) return;
 
-        Debug.DrawRay(transform.position, Vector3.left    * Offset, Color.yellow);
-        Debug.DrawRay(transform.position, Vector3.right   * Offset, Color.yellow);
-        Debug.DrawRay(transform.position, Vector3.forward * Offset, Color.yellow);
-        Debug.DrawRay(transform.position, Vector3.back    * Offset, Color.yellow);
+        Debug.DrawRay(transform.position, Vector3.left  * Offset, Color.yellow);
+        Debug.DrawRay(transform.position, Vector3.right * Offset, Color.yellow);
+        Debug.DrawRay(transform.position, Vector3.up    * Offset, Color.yellow);
+        Debug.DrawRay(transform.position, Vector3.down  * Offset, Color.yellow);
     }
 
     #endregion

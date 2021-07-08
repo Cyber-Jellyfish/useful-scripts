@@ -5,7 +5,7 @@ public class PlayerEntity : EntityBase
     #region VARIABLES
 
     [Header("Behaviours")]
-    public MovementBehaviour MovementBehaviour;
+    public GridMovement3D MovementBehaviour;
 
 
     private Vector2 _inputAxis = Vector2.zero;
